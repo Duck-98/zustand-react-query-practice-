@@ -1,9 +1,9 @@
 export interface Restore {
-  restore_data: string;
+  restore_date: string;
+  restored_name: string;
   subject: string;
   from: string;
   to: string;
-  restored_name: string;
 }
 
 export interface Block {
@@ -12,4 +12,9 @@ export interface Block {
   subject: string;
   from: string;
   to: string;
+}
+
+export enum TableType {
+  block = 'block',
+  restore = 'restore',
 }
