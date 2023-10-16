@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 
 interface PaginationProps {
-  tableData: any[];
+  data: any[];
   selectedRowsPerPage: number;
   setSelectedCurrentPage: (pageNumber: number) => void;
   selectedCurrentPage: number;
@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 export const Pagination = ({
-  tableData,
+  data,
   selectedRowsPerPage,
   setSelectedCurrentPage,
   selectedCurrentPage,
@@ -20,21 +20,18 @@ export const Pagination = ({
 }: PaginationProps) => {
   const router = useRouter();
 
-  //   const [selectedCurrentPage, setSelectedCurrentPage] = useState(1);
-  //   const [currentPageGroup, setCurrentPageGroup] = useState(1);
-
   const firstPageNumber = (currentPageGroup - 1) * 10 + 1;
   const lastPageNumber = currentPageGroup * 10;
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center mb-10 text-xl">
       <button
         disabled={currentPageGroup === 1} // 첫 번째 페이지 그룹인 경우 비활성화 처리
         onClick={() => setCurrentPageGroup(currentPageGroup - 1)}
       >
         <BiFirstPage />
       </button>
-      {Array.from({ length: Math.ceil(tableData.length / selectedRowsPerPage) }, (_, index) => {
+      {Array.from({ length: Math.ceil(data.length / selectedRowsPerPage) }, (_, index) => {
         const pageNumber = index + 1;
         if (pageNumber >= firstPageNumber && pageNumber <= lastPageNumber) {
           return (
@@ -60,7 +57,7 @@ export const Pagination = ({
         return null;
       })}
       <button
-        disabled={lastPageNumber >= Math.ceil(tableData.length / selectedRowsPerPage)} // 마지막 페이지 그룹인 경우 비활성화 처리
+        disabled={lastPageNumber >= Math.ceil(data.length / selectedRowsPerPage)} // 마지막 페이지 그룹인 경우 비활성화 처리
         onClick={() => setCurrentPageGroup(currentPageGroup + 1)}
       >
         <BiLastPage />
