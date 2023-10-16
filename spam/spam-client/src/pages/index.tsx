@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { Table } from '@/components/Table';
 import { TableType } from '@/types';
+import { Spinner } from '@/components/Spinner';
 
 export default function Home() {
-  const [tableData, setTableData] = useState([]);
+  const [data, setData] = useState([]);
   const a = TableType?.block;
 
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function Home() {
         const response = await fetch(url);
         if (response.ok) {
           const data = await response.json();
-          setTableData(data);
+          setData(data);
         } else {
           console.error('Failed to fetch data');
         }
@@ -27,8 +28,8 @@ export default function Home() {
   return (
     <main className="p-12">
       <h1 className="text-4xl font-bold mb-10">Block</h1>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Table data={tableData} type={a} />
+      <Suspense fallback={<Spinner />}>
+        <Table data={data} type={a} />
       </Suspense>
     </main>
   );
