@@ -11,10 +11,13 @@ export function formatDate(dateString: string) {
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-export const sortByDate = (data, ascending: boolean) => {
+export const sortByDate = (data: (Block | Restore)[], ascending: boolean) => {
   return data.sort((a, b) => {
-    const dateA = new Date(a.restore_date || a.block_date);
-    const dateB = new Date(b.restore_date || b.block_date);
+    const aIsBlock = 'block_date' in a;
+    const bIsBlock = 'block_date' in b;
+
+    const dateA = new Date(aIsBlock ? (a as Block).block_date : (a as Restore).restore_date);
+    const dateB = new Date(bIsBlock ? (b as Block).block_date : (b as Restore).restore_date);
 
     return ascending ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
   });
