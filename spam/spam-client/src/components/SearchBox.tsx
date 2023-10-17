@@ -33,7 +33,7 @@ export const SearchBox = ({
         <select
           name="type"
           onChange={handleSearchTypeChange}
-          className="text-black w-20 text-lg border-l border-l-gray-300 h-full"
+          className="text-black w-24  border-l border-l-gray-300 h-full"
         >
           <option value="all">All</option>
           <option value="subject">Subject</option>
