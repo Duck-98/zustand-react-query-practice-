@@ -1,11 +1,16 @@
-import React, { useState, useEffect, Suspense } from 'react';
-import { Table } from '@/components/Table';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { TableType } from '@/types';
 import { Spinner } from '@/components/Spinner';
 
+const DataTableGrid = dynamic(() => import('@/components/DataTableGrid'), {
+  suspense: true,
+  ssr: false,
+  loading: () => <Spinner />,
+});
+
 export default function Home() {
   const [data, setData] = useState([]);
-  const a = TableType?.block;
 
   useEffect(() => {
     async function fetchData() {
@@ -24,13 +29,12 @@ export default function Home() {
     }
     fetchData();
   }, []);
-
   return (
     <main className="p-12">
       <h1 className="text-4xl font-bold mb-10">Block</h1>
-      <Suspense fallback={<Spinner />}>
-        <Table data={data} type={a} />
-      </Suspense>
+      {/* <Suspense fallback={<Spinner />}> */}
+      <DataTableGrid data={data} type={TableType.block} />
+      {/* </Suspense> */}
     </main>
   );
 }
