@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { BiFirstPage, BiLastPage } from 'react-icons/bi';
 
 interface PaginationProps {
-  data: any[];
+  totalData: number;
   selectedRowsPerPage: number;
   setSelectedCurrentPage: (pageNumber: number) => void;
   selectedCurrentPage: number;
@@ -11,7 +11,7 @@ interface PaginationProps {
 }
 
 export const Pagination = ({
-  data,
+  totalData,
   selectedRowsPerPage,
   setSelectedCurrentPage,
   selectedCurrentPage,
@@ -31,7 +31,7 @@ export const Pagination = ({
       >
         <BiFirstPage />
       </button>
-      {Array.from({ length: Math.ceil(data.length / selectedRowsPerPage) }, (_, index) => {
+      {Array.from({ length: Math.ceil(totalData / selectedRowsPerPage) }, (_, index) => {
         const pageNumber = index + 1;
         if (pageNumber >= firstPageNumber && pageNumber <= lastPageNumber) {
           return (
@@ -57,7 +57,7 @@ export const Pagination = ({
         return null;
       })}
       <button
-        disabled={lastPageNumber >= Math.ceil(data.length / selectedRowsPerPage)} // 마지막 페이지 그룹인 경우 비활성화 처리
+        disabled={lastPageNumber >= Math.ceil(totalData / selectedRowsPerPage)} // 마지막 페이지 그룹인 경우 비활성화 처리
         onClick={() => setCurrentPageGroup(currentPageGroup + 1)}
       >
         <BiLastPage />
