@@ -14,7 +14,6 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="flex space-x-4">
           <Link href="/" className={`p-1.5 rounded-md ${pathname === '/' && 'bg-red-400'}`}>
             Block
-            {/* <span className={`p-1.5 rounded-md ${pathname === '/' && 'bg-red-400'}`}>Block</span> */}
           </Link>
           <Link
             href="/restore"
