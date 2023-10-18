@@ -45,11 +45,12 @@ export const Table = ({
                 type === TableType.block
                   ? (item as Block).blocked_ip
                   : (item as Restore).restored_name;
+
               return (
-                <tr key={index}>
-                  <td>{formatDate(date)}</td>
-                  <td>{secondColumn}</td>
-                  <td>{item.subject}</td>
+                <tr key={index} className="border border-gray-300">
+                  <td className="text-xs w-28 text-center">{formatDate(date)}</td>
+                  <td className="text-sm">{secondColumn}</td>
+                  <td className="text-sm">{item.subject}</td>
                   <td>{item.from}</td>
                   <td>{item.to}</td>
                 </tr>
