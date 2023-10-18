@@ -36,6 +36,7 @@ export default function DataTableGrid({ data: initialData, type }: TableRowProps
   const [searchType, setSearchType] = useState('all');
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
 
   const startIndex = (selectedCurrentPage - 1) * selectedRowsPerPage;
   const endIndex = startIndex + selectedRowsPerPage;
@@ -201,6 +202,8 @@ export default function DataTableGrid({ data: initialData, type }: TableRowProps
     if (!accessToken) {
       toast.error('로그인이 필요합니다.');
       router.push('/login');
+    } else {
+      setIsLogin(true);
     }
   }, []);
 
@@ -210,66 +213,70 @@ export default function DataTableGrid({ data: initialData, type }: TableRowProps
 
   return (
     <main className="space-y-4">
-      <div className="flex justify-between">
-        <div className="space-x-2">
-          <label>Rows per page</label>
-          <select
-            className="text-gray-900 w-14 h-9"
-            value={selectedRowsPerPage}
-            onChange={handleRowsPerPageChange}
-          >
-            <option>10</option>
-            <option>20</option>
-            <option>50</option>
-            <option>100</option>
-          </select>
-        </div>
-        <SearchBox
-          handleSearchSubmit={handleSearchSubmit}
-          handleSearchChange={handleSearchChange}
-          searchTerm={searchTerm}
-          handleSearchTypeChange={handleSearchTypeChange}
-          type={type}
-        />
-      </div>
+      {isLogin && (
+        <>
+          <div className="flex justify-between">
+            <div className="space-x-2">
+              <label>Rows per page</label>
+              <select
+                className="text-gray-900 w-14 h-9"
+                value={selectedRowsPerPage}
+                onChange={handleRowsPerPageChange}
+              >
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+                <option>100</option>
+              </select>
+            </div>
+            <SearchBox
+              handleSearchSubmit={handleSearchSubmit}
+              handleSearchChange={handleSearchChange}
+              searchTerm={searchTerm}
+              handleSearchTypeChange={handleSearchTypeChange}
+              type={type}
+            />
+          </div>
 
-      <div className="flex space-x-4">
-        <DomainCheckBox
-          handleCheckboxChange={handleCheckboxChange}
-          selectedDomains={selectedFromEmails}
-          setSelectedDomains={setSelectedFromEmails}
-          domains={['gmail.com', 'hotmail.com', 'yahoo.com']}
-          label="From"
-          queryParam="from_domain"
-        />
+          <div className="flex space-x-4">
+            <DomainCheckBox
+              handleCheckboxChange={handleCheckboxChange}
+              selectedDomains={selectedFromEmails}
+              setSelectedDomains={setSelectedFromEmails}
+              domains={['gmail.com', 'hotmail.com', 'yahoo.com']}
+              label="From"
+              queryParam="from_domain"
+            />
 
-        <DomainCheckBox
-          handleCheckboxChange={handleCheckboxChange}
-          selectedDomains={selectedToEmails}
-          setSelectedDomains={setSelectedToEmails}
-          domains={['gmail.com', 'hotmail.com', 'yahoo.com']}
-          label="To"
-          queryParam="to_domain"
-        />
-      </div>
+            <DomainCheckBox
+              handleCheckboxChange={handleCheckboxChange}
+              selectedDomains={selectedToEmails}
+              setSelectedDomains={setSelectedToEmails}
+              domains={['gmail.com', 'hotmail.com', 'yahoo.com']}
+              label="To"
+              queryParam="to_domain"
+            />
+          </div>
 
-      <Pagination
-        totalData={filteredData.length}
-        selectedRowsPerPage={selectedRowsPerPage}
-        setSelectedCurrentPage={setSelectedCurrentPage}
-        setCurrentPageGroup={setCurrentPageGroup}
-        currentPageGroup={currentPageGroup}
-        selectedCurrentPage={selectedCurrentPage}
-      />
+          <Pagination
+            totalData={filteredData.length}
+            selectedRowsPerPage={selectedRowsPerPage}
+            setSelectedCurrentPage={setSelectedCurrentPage}
+            setCurrentPageGroup={setCurrentPageGroup}
+            currentPageGroup={currentPageGroup}
+            selectedCurrentPage={selectedCurrentPage}
+          />
 
-      <Table
-        filteredData={filteredData}
-        type={type}
-        handleSortByDate={handleSortByDate}
-        isSortedAscending={isSortedAscending}
-        startIndex={startIndex}
-        endIndex={endIndex}
-      />
+          <Table
+            filteredData={filteredData}
+            type={type}
+            handleSortByDate={handleSortByDate}
+            isSortedAscending={isSortedAscending}
+            startIndex={startIndex}
+            endIndex={endIndex}
+          />
+        </>
+      )}
     </main>
   );
 }
