@@ -11,6 +11,7 @@ import { Pagination } from './Pagination';
 import { SearchBox } from './SearchBox';
 import { DomainCheckBox } from './DomainCheckBox';
 import { Table } from './Table';
+import { toast } from 'react-toastify';
 
 interface TableRowProps {
   data: (Block | Restore)[];
@@ -194,6 +195,14 @@ export default function DataTableGrid({ data: initialData, type }: TableRowProps
     setFilteredData(sortByDate(filteredData, isSortedAscending));
     setIsLoading(false);
   }, [initialData, router.query]);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      toast.error('로그인이 필요합니다.');
+      router.push('/login');
+    }
+  }, []);
 
   if (isLoading) {
     return <div></div>; // 필터링 로딩 중일때 아무것도 안 보여주기
