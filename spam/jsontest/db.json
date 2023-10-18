@@ -1,4 +1,16 @@
 {
+  "users": [
+    {
+      "email": "devduck@test.com",
+      "password": "$2a$10$ubySWOENO5swZWX/Gx0E9.l2ZxEgCb1L2Qk17YdthRpZGT2L/nEce",
+      "id": 1
+    },
+    {
+      "email": "devduck2@test.com",
+      "password": "$2a$10$yJ6z0k1pkF8kQ07EmCF4xuWmH.gQrhaLvs8ChlkrpmHI3SgQYj1XS",
+      "id": 2
+    }
+  ],
   "block": [
     {
       "block_date": "2023-05-17T23:35:36.939Z",
