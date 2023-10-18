@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 const Layout = ({ children }: LayoutProps) => {
-  const { pathname } = useRouter();
+  const router = useRouter();
 
   const [isLogin, setIsLogin] = useState(false);
 
@@ -29,12 +29,12 @@ const Layout = ({ children }: LayoutProps) => {
     <div className="">
       <header className="p-5 flex items-center justify-between">
         <div className="flex space-x-4">
-          <Link href="/" className={`p-1.5 rounded-md ${pathname === '/' && 'bg-red-400'}`}>
+          <Link href="/" className={`p-1.5 rounded-md ${router.pathname === '/' && 'bg-red-400'}`}>
             Block
           </Link>
           <Link
             href="/restore"
-            className={`p-1.5 rounded-md ${pathname === '/restore' && 'bg-red-400'}`}
+            className={`p-1.5 rounded-md ${router.pathname === '/restore' && 'bg-red-400'}`}
           >
             Restore
           </Link>
