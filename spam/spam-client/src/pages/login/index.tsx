@@ -17,9 +17,11 @@ export default function LoginPage() {
         password: password,
       });
       localStorage.setItem('accessToken', response.data.accessToken);
-      router.push('/');
+      router.replace('/');
+      toast.success('로그인 되었습니다.');
     } catch (error) {
       console.error('에러가 발생했습니다:', error);
+      toast.error('아이디 또는 비밀번호가 일치하지 않습니다.');
     }
   };
 
