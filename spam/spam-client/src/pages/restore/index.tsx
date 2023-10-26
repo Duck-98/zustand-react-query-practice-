@@ -1,78 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { TableType } from '@/types';
+import React, { useEffect } from 'react';
+import { Restore, TableType } from '@/types';
 import { Spinner } from '@/components/Spinner';
-
-const DataTableGrid = dynamic(() => import('@/components/DataTableGrid'), {
-  suspense: true,
-  ssr: false,
-  loading: () => <Spinner />,
-});
+import { fetchRestore } from '@/api';
+import { useQuery } from '@tanstack/react-query';
+import DataTableGrid from '@/components/DataTableGrid';
+import { useRestoreStore } from '@/store';
 
 function RestorePage() {
-  const [data, setData] = useState([]);
+  const { setRestore, restore } = useRestoreStore();
+
+  const query = useQuery<Restore[], Error>({
+    queryKey: ['restore'],
+    queryFn: fetchRestore,
+  });
+
   const tableType = TableType?.restore;
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const url = 'http://localhost:7777/restore';
-        const response = await fetch(url);
-        if (response.ok) {
-          const data = await response.json();
-          setData(data);
-        } else {
-          console.error('Failed to fetch data');
-        }
-      } catch (error) {
-        console.error('Error while fetching data', error);
-      }
+    if (query.data) {
+      setRestore(query.data);
     }
-    fetchData();
-  }, []);
+  }, [query.data]);
+
+  if (query.isLoading) {
+    return <Spinner />;
+  }
+
+  if (query.error) {
+    return <div>에러가 발생했습니다.</div>;
+  }
 
   return (
     <main className="p-12">
       <h1 className="text-4xl font-bold mb-10">Restore</h1>
-      {/* <Suspense fallback={<Spinner />}> */}
-      <DataTableGrid data={data} type={tableType} />
-      {/* </Suspense> */}
+      <DataTableGrid data={query.data} type={tableType} />
     </main>
   );
 }
 
 export default RestorePage;
-
-// function RestorePage() {
-//   const [data, setData] = useState([]);
-//   const tableType = TableType?.restore;
-
-//   useEffect(() => {
-//     async function fetchData() {
-//       try {
-//         const url = 'http://localhost:7777/restore';
-//         const response = await fetch(url);
-//         if (response.ok) {
-//           const data = await response.json();
-//           setData(data);
-//         } else {
-//           console.error('Failed to fetch data');
-//         }
-//       } catch (error) {
-//         console.error('Error while fetching data', error);
-//       }
-//     }
-//     fetchData();
-//   }, []);
-
-//   return (
-//     <main className="p-12">
-//       <h1 className="text-4xl font-bold mb-10">Restore</h1>
-//       <Suspense fallback={<Spinner />}>
-//         <DataTableGrid data={data} type={tableType} />
-//       </Suspense>
-//     </main>
-//   );
-// }
-
-// export default RestorePage;

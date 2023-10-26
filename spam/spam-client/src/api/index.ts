@@ -28,3 +28,17 @@ api.interceptors.response.use(
     return handleRefreshTokenError(err);
   },
 );
+
+/* fetch */
+
+export const fetchRestore = async () => {
+  const { data } = await axios.get('http://localhost:7777/restore');
+  return data;
+};
+
+export const fetchBlock = async () => {
+  const { data } = await axios.get('http://localhost:7777/block');
+  return data;
+};
+
+
