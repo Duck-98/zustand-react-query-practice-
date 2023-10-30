@@ -32,13 +32,37 @@ api.interceptors.response.use(
 /* fetch */
 
 export const fetchRestore = async () => {
-  const { data } = await axios.get('http://localhost:7777/restore');
-  return data;
+  try {
+    const { data } = await axios.get('http://localhost:7777/restore', {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return data;
+  } catch (err: any) {
+    if (err.response && err.response.status === 401) {
+      throw new Error('401');
+    }
+    return err.response.data;
+  }
 };
 
 export const fetchBlock = async () => {
-  const { data } = await axios.get('http://localhost:7777/block');
-  return data;
+  try {
+    const { data } = await axios.get('http://localhost:7777/block', {
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      },
+    });
+    return data;
+  } catch (err: any) {
+    if (err.response && err.response.status === 401) {
+      throw new Error('401');
+    }
+    return err.response.data;
+  }
 };
-
-
