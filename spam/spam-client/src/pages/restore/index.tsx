@@ -5,9 +5,12 @@ import { fetchRestore } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import DataTableGrid from '@/components/DataTableGrid';
 import { useRestoreStore } from '@/store';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 function RestorePage() {
   const { setRestore, restore } = useRestoreStore();
+  const router = useRouter();
 
   const query = useQuery<Restore[], Error>({
     queryKey: ['restore'],
@@ -27,6 +30,10 @@ function RestorePage() {
   }
 
   if (query.error) {
+    if (query.error.message === '401') {
+      toast.error('로그인이 필요합니다.');
+      router.push('/login');
+    }
     return <div>에러가 발생했습니다.</div>;
   }
 
